@@ -9,7 +9,8 @@ SEXP net_seq_classification_fit(
     Rcpp::IntegerVector y,
     int batch_size,
     int epochs,
-    std::string optimizer
+    std::string optimizer,
+    bool verbose
 )
 {
     using namespace tiny_dnn;
@@ -37,7 +38,23 @@ SEXP net_seq_classification_fit(
 
     adagrad opt;
 
-    net->train<cross_entropy>(opt, input, output, batch_size, epochs);
+    timer t;
+    int epoch = 0;
+
+    net->train<cross_entropy>(opt, input, output, batch_size, epochs,
+        // called for each mini-batch
+        [&]() {
+
+        },
+        // called for each epoch
+        [&]() {
+            if(verbose)
+            {
+                Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << " s" << std::endl;
+                t.restart();
+                epoch++;
+            }
+        });
 
     return R_NilValue;
 }

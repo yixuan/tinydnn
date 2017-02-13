@@ -9,7 +9,8 @@ SEXP net_seq_regression_fit(
     Rcpp::NumericMatrix y,
     int batch_size,
     int epochs,
-    std::string optimizer
+    std::string optimizer,
+    bool verbose
 )
 {
     using namespace tiny_dnn;
@@ -51,7 +52,23 @@ SEXP net_seq_regression_fit(
 
     adagrad opt;
 
-    net->fit<mse>(opt, input, output, batch_size, epochs);
+    timer t;
+    int epoch = 0;
+
+    net->fit<mse>(opt, input, output, batch_size, epochs,
+        // called for each mini-batch
+        [&]() {
+
+        },
+        // called for each epoch
+        [&]() {
+            if(verbose)
+            {
+                Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << " s" << std::endl;
+                t.restart();
+                epoch++;
+            }
+        });
 
     return R_NilValue;
 }

@@ -64,7 +64,7 @@ NetworkSequential$methods(
         ## TODO
     },
 
-    fit = function(x, y, batch_size, epochs, optimizer = "adagrad")
+    fit = function(x, y, batch_size, epochs, optimizer = "adagrad", verbose = TRUE)
     {
         ## Type checks
         if(!is.numeric(x))
@@ -78,6 +78,7 @@ NetworkSequential$methods(
 
         batch_size = as.integer(batch_size)
         epochs = as.integer(epochs)
+        verbose = as.logical(verbose)
 
         ## Force x to be a matrix
         if(!is.matrix(x))
@@ -106,7 +107,7 @@ NetworkSequential$methods(
                      .self$out_data_size(), dimy))
 
             ## Call model fitting function
-            net_seq_regression_fit(.self$net, x, y, batch_size, epochs, optimizer)
+            net_seq_regression_fit(.self$net, x, y, batch_size, epochs, optimizer, verbose)
         } else {
             ## Factor y -- Classification
             .self$type = "classification"
@@ -131,7 +132,7 @@ NetworkSequential$methods(
                              .self$out_data_size(), dimy))
 
             ## Call model fitting function
-            net_seq_classification_fit(.self$net, x, ylabel, batch_size, epochs, optimizer)
+            net_seq_classification_fit(.self$net, x, ylabel, batch_size, epochs, optimizer, verbose)
         }
 
         invisible(.self)
