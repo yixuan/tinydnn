@@ -58,6 +58,12 @@ NetworkSequential$methods(
     from_json = function(json_string)
     {
         ## TODO
+    },
+
+    fit = function(x, y, batch_size, epochs, optimizer = "adagrad")
+    {
+        net_seq_fit(.self$net, x, y, batch_size, epochs, optimizer)
+        invisible(.self)
     }
 )
 

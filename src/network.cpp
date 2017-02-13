@@ -54,3 +54,42 @@ SEXP net_seq_add_layer(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net
 
     return R_NilValue;
 }
+
+
+
+// [[Rcpp::export]]
+SEXP net_seq_fit(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net,
+                 Rcpp::NumericMatrix x,
+                 Rcpp::NumericVector y,
+                 int batch_size,
+                 int epochs,
+                 std::string optimizer)
+{
+    using namespace tiny_dnn;
+
+    int n = x.nrow();
+    int p = x.ncol();
+
+    std::vector<vec_t> input;
+    std::vector<vec_t> output;
+
+    input.reserve(n);
+    output.reserve(n);
+
+    for(int i = 0; i < n; i++)
+    {
+        vec_t row(p);
+        for(int j = 0; j < p; j++)
+        {
+            row[j] = x(i, j);
+        }
+        input.push_back(row);
+        output.push_back(vec_t(1, y[i]));
+    }
+
+    adagrad opt;
+
+    net->fit<mse>(opt, input, output, batch_size, epochs);
+
+    return R_NilValue;
+}
