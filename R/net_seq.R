@@ -64,8 +64,10 @@ NetworkSequential$methods(
         ## TODO
     },
 
-    fit = function(x, y, batch_size, epochs, optimizer = "adagrad", verbose = TRUE)
+    fit = function(x, y, batch_size, epochs = 10, optimizer = "adagrad", verbose = TRUE)
     {
+        "Fitting a regression or classification model"
+
         ## Type checks
         if(!is.numeric(x))
             stop("'x' must be a numeric matrix or vector")
@@ -87,6 +89,7 @@ NetworkSequential$methods(
         ## Numeric y -- regression
         if(is.numeric(y))
         {
+            ## Used to let predict() know the prediction type
             .self$type = "regression"
 
             ## Force y to be a matrix
@@ -110,6 +113,8 @@ NetworkSequential$methods(
             net_seq_regression_fit(.self$net, x, y, batch_size, epochs, optimizer, verbose)
         } else {
             ## Factor y -- Classification
+
+            ## Used to let predict() know the prediction type and the class levels
             .self$type = "classification"
             .self$levels = levels(y)
 
@@ -140,6 +145,8 @@ NetworkSequential$methods(
 
     predict = function(newx)
     {
+        "Predicting new observations based on the fitted model"
+
         ## Type check
         if(!is.numeric(newx))
             stop("'newx' must be a numeric matrix or vector")
@@ -157,6 +164,8 @@ NetworkSequential$methods(
         if(.self$type == "regression")
         {
             res = net_seq_regression_predict(.self$net, newx)
+            ## If the result has only one column, make it a vector
+            if(ncol(res) == 1)  dim(res) = NULL
         } else if(.self$type == "classification")
         {
             res = net_seq_classification_predict(.self$net, newx)

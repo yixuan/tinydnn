@@ -76,7 +76,7 @@ SEXP net_seq_regression_fit(
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector net_seq_regression_predict(
+Rcpp::NumericMatrix net_seq_regression_predict(
     Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net,
     Rcpp::NumericMatrix x
 )
@@ -85,19 +85,29 @@ Rcpp::NumericVector net_seq_regression_predict(
 
     const int n = x.nrow();
     const int px = x.ncol();
+    const int py = net->out_data_size();
 
-    Rcpp::NumericVector yhat(n);
-    vec_t row(px);
+    Rcpp::NumericMatrix pred(n, py);
+    vec_t rowx(px);
 
     for(int i = 0; i < n; i++)
     {
         for(int j = 0; j < px; j++)
         {
-            row[j] = x(i, j);
+            rowx[j] = x(i, j);
         }
-        vec_t res = net->predict(row);
-        yhat[i] = res[0];
+
+        vec_t rowy = net->predict(rowx);
+        if(py == 1)
+        {
+            pred[i] = rowy[0];
+        } else {
+            for(int j = 0; j < py; j++)
+            {
+                pred(i, j) = rowy[j];
+            }
+        }
     }
 
-    return yhat;
+    return pred;
 }
