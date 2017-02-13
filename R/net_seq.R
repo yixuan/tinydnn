@@ -11,6 +11,14 @@ NetworkSequential$methods(
         net_seq_name(.self$net)
     },
 
+    add_layer = function(layer)
+    {
+        "Add one layer to the network"
+
+        net_seq_add_layer(.self$net, layer)
+        invisible(.self)
+    },
+
     layer_size = function()
     {
         "Number of layers"

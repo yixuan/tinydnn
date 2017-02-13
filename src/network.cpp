@@ -1,5 +1,6 @@
 #include <tiny_dnn/tiny_dnn.h>
 #include <Rcpp.h>
+#include "layers.h"
 
 // [[Rcpp::export]]
 Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net_seq_constructor(std::string name)
@@ -33,4 +34,23 @@ int net_seq_out_data_size(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > 
 int net_seq_in_data_size(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net)
 {
     return net->in_data_size();
+}
+
+
+
+// [[Rcpp::export]]
+SEXP net_seq_add_layer(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net,
+                       Rcpp::List layer)
+{
+    int id = layer["layer_id"];
+    switch(id)
+    {
+    case 0:
+        add_layer_fully_connected(net, layer);
+        break;
+    default:
+        Rcpp::stop("unimplemented layer type");
+    }
+
+    return R_NilValue;
 }

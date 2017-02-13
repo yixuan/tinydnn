@@ -2,3 +2,5 @@ importFrom(Rcpp, evalCpp)
 useDynLib(tinydnn)
 
 export(net_seq)
+export(layer_fully_connected)
+export(fc)
