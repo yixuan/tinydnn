@@ -62,13 +62,13 @@ NetworkSequential$methods(
 
     fit = function(x, y, batch_size, epochs, optimizer = "adagrad")
     {
-        net_seq_fit(.self$net, x, y, batch_size, epochs, optimizer)
+        net_seq_regression_fit(.self$net, x, y, batch_size, epochs, optimizer)
         invisible(.self)
     },
 
     predict = function(newx)
     {
-        net_seq_predict(.self$net, newx)
+        net_seq_regression_predict(.self$net, newx)
     }
 )
 
