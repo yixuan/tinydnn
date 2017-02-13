@@ -1,12 +1,13 @@
 Package: tinydnn
 Type: Package
-Title: Tiny yet Powerful Implementation of Deep Neural Networks
+Title: Tiny yet Powerful Deep Neural Networks
 Version: 0.1.0
 Author: Yixuan Qiu, Taiga Noumi, and other contributors of the tiny-dnn library.
     See file AUTHORS for details.
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
 Description: R wrapper of the 'tiny-dnn' C++ library for deep learning.
 License: MIT
+Copyright: see file COPYRIGHTS
 Encoding: UTF-8
 LazyData: true
 Depends: methods
