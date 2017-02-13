@@ -22,3 +22,15 @@ int net_seq_layer_size(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net
 {
     return net->layer_size();
 }
+
+// [[Rcpp::export]]
+int net_seq_out_data_size(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net)
+{
+    return net->out_data_size();
+}
+
+// [[Rcpp::export]]
+int net_seq_in_data_size(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net)
+{
+    return net->in_data_size();
+}
