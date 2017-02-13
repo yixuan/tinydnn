@@ -6,7 +6,7 @@
 SEXP net_seq_regression_fit(
     Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net,
     Rcpp::NumericMatrix x,
-    Rcpp::NumericVector y,
+    Rcpp::NumericMatrix y,
     int batch_size,
     int epochs,
     std::string optimizer
@@ -14,8 +14,9 @@ SEXP net_seq_regression_fit(
 {
     using namespace tiny_dnn;
 
-    int n = x.nrow();
-    int p = x.ncol();
+    const int n = x.nrow();
+    const int px = x.ncol();
+    const int py = y.ncol();
 
     std::vector<vec_t> input;
     std::vector<vec_t> output;
@@ -23,15 +24,29 @@ SEXP net_seq_regression_fit(
     input.reserve(n);
     output.reserve(n);
 
+    // Copy data
+    vec_t rowx(px);
+    vec_t rowy(py);
     for(int i = 0; i < n; i++)
     {
-        vec_t row(p);
-        for(int j = 0; j < p; j++)
+        // Fill input
+        for(int j = 0; j < px; j++)
         {
-            row[j] = x(i, j);
+            rowx[j] = x(i, j);
         }
-        input.push_back(row);
-        output.push_back(vec_t(1, y[i]));
+        input.push_back(rowx);
+
+        // Fill output
+        if(py == 1)
+        {
+            rowy[0] = y[i];
+        } else {
+            for(int j = 0; j < py; j++)
+            {
+                rowy[j] = y(i, j);
+            }
+        }
+        output.push_back(rowy);
     }
 
     adagrad opt;
@@ -51,15 +66,15 @@ Rcpp::NumericVector net_seq_regression_predict(
 {
     using namespace tiny_dnn;
 
-    int n = x.nrow();
-    int p = x.ncol();
+    const int n = x.nrow();
+    const int px = x.ncol();
 
     Rcpp::NumericVector yhat(n);
+    vec_t row(px);
 
     for(int i = 0; i < n; i++)
     {
-        vec_t row(p);
-        for(int j = 0; j < p; j++)
+        for(int j = 0; j < px; j++)
         {
             row[j] = x(i, j);
         }
