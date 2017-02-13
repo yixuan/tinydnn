@@ -30,6 +30,7 @@ NetworkSequential$methods(
     {
         "Total number of elements of output data"
 
+        if(!.self$layer_size())  return(0L)
         net_seq_out_data_size(.self$net)
     },
 
@@ -37,6 +38,7 @@ NetworkSequential$methods(
     {
         "Total number of elements of input data"
 
+        if(!.self$layer_size())  return(0L)
         net_seq_in_data_size(.self$net)
     },
 
