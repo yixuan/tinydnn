@@ -64,6 +64,11 @@ NetworkSequential$methods(
     {
         net_seq_fit(.self$net, x, y, batch_size, epochs, optimizer)
         invisible(.self)
+    },
+
+    predict = function(newx)
+    {
+        net_seq_predict(.self$net, newx)
     }
 )
 

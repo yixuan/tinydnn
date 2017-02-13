@@ -93,3 +93,32 @@ SEXP net_seq_fit(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net,
 
     return R_NilValue;
 }
+
+
+
+// [[Rcpp::export]]
+Rcpp::NumericVector net_seq_predict(
+    Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net,
+    Rcpp::NumericMatrix x
+)
+{
+    using namespace tiny_dnn;
+
+    int n = x.nrow();
+    int p = x.ncol();
+
+    Rcpp::NumericVector yhat(n);
+
+    for(int i = 0; i < n; i++)
+    {
+        vec_t row(p);
+        for(int j = 0; j < p; j++)
+        {
+            row[j] = x(i, j);
+        }
+        vec_t res = net->predict(row);
+        yhat[i] = res[0];
+    }
+
+    return yhat;
+}
