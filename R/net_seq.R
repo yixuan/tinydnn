@@ -143,7 +143,7 @@ NetworkSequential$methods(
         invisible(.self)
     },
 
-    predict = function(newx)
+    predict = function(newx, type = c("class", "prob"))
     {
         "Predicting new observations based on the fitted model"
 
@@ -161,15 +161,17 @@ NetworkSequential$methods(
             stop(sprintf("mismatch of dimensionality between network and data\nnetwork input: %d variable(s)\ndata input: %d variable(s)",
                          .self$in_data_size(), dimx))
 
-        if(.self$type == "regression")
-        {
-            res = net_seq_regression_predict(.self$net, newx)
-            ## If the result has only one column, make it a vector
-            if(ncol(res) == 1)  dim(res) = NULL
-        } else if(.self$type == "classification")
+        type = match.arg(type)
+        if(.self$type == "classification" && type == "class")
         {
             res = net_seq_classification_predict(.self$net, newx)
             res = factor(.self$levels[res + 1], levels = .self$levels)
+        } else {
+            ## This includes regression, and classification with class = "prob"
+
+            res = net_seq_regression_predict(.self$net, newx)
+            ## If the result has only one column, make it a vector
+            if(ncol(res) == 1)  dim(res) = NULL
         }
 
         res
