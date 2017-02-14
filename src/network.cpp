@@ -51,6 +51,9 @@ SEXP net_seq_add_layer(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net
     case 1:
         add_layer_convolutional(net, layer);
         break;
+    case 2:
+        add_layer_average_pooling(net, layer);
+        break;
     default:
         Rcpp::stop("unimplemented layer type");
     }

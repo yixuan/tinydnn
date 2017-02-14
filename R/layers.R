@@ -24,6 +24,7 @@ activation_id = c(identity   = 0L,
 ##' \itemize{
 ##'   \item Fully-connected layer: \code{layer_fully_connected()}, or \code{fc()} for short
 ##'   \item Convolutoinal layer: \code{layer_convolutional()}, \code{conv()}
+##'   \item Average-pooling layer: \code{layer_average_pooling()}, \code{ave_pool()}
 ##' }
 ##' More types of layers are to be added.
 ##'
@@ -46,8 +47,8 @@ activation_id = c(identity   = 0L,
 layer_fully_connected = function(
     in_dim,
     out_dim,
-    activation = "sigmoid",
-    has_bias = TRUE
+    has_bias = TRUE,
+    activation = "sigmoid"
 )
 {
     list(layer_id = 0L,
@@ -66,15 +67,16 @@ fc = layer_fully_connected
 ##' @param in_height Input image height
 ##' @param window_width Window width of convolution
 ##' @param window_height Window height of convolution
-##' @param in_channels Input image channels
-##' @param out_channels Output image channels
+##' @param in_channels Input image channels (depth)
+##' @param out_channels Output image channels (depth)
 ##' @param pad_type Rounding strategy
-##' @param w_stride The horizontal interval at which to apply the filters
-##' @param h_stride The vertical interval at which to apply the filters
+##' @param stride_x The horizontal interval at which to apply the filters
+##' @param stride_y The vertical interval at which to apply the filters
+##' @export
 layer_convolutional = function(
     in_width, in_height, window_width, window_height, in_channels, out_channels,
-    activation = "sigmoid",
-    pad_type = c("valid", "same"), has_bias = TRUE, w_stride = 1L, h_stride = 1L
+    pad_type = c("valid", "same"), has_bias = TRUE, stride_x = 1L, stride_y = 1L,
+    activation = "sigmoid"
 )
 {
     list(layer_id      = 1L,
@@ -85,11 +87,40 @@ layer_convolutional = function(
          window_height = as.integer(window_height),
          in_channels   = as.integer(in_channels),
          out_channels  = as.integer(out_channels),
+         pad_type      = match.arg(pad_type),
          has_bias      = as.logical(has_bias),
-         w_stride      = as.integer(w_stride),
-         h_stride      = as.integer(h_stride))
+         stride_x      = as.integer(stride_x),
+         stride_y      = as.integer(stride_y))
 }
 
 ##' @rdname layers
 ##' @export
 conv = layer_convolutional
+
+##' @rdname layers
+##' @param pool_size_x The factor by which to downscale in horizontal direction
+##' @param pool_size_y The factor by which to downscale in vertical direction
+##' @export
+layer_average_pooling = function(
+    in_width, in_height, in_channels, pool_size_x,
+    pool_size_y = ifelse(in_height == 1, 1, pool_size_x),
+    stride_x = pool_size_x, stride_y = pool_size_y,
+    pad_type = c("valid", "same"),
+    activation = "sigmoid"
+)
+{
+    list(layer_id      = 2L,
+         act_id        = activation_id[activation],
+         in_width      = as.integer(in_width),
+         in_height     = as.integer(in_height),
+         in_channels   = as.integer(in_channels),
+         pool_size_x   = as.integer(pool_size_x),
+         pool_size_y   = as.integer(pool_size_y),
+         pad_type      = match.arg(pad_type),
+         stride_x      = as.integer(stride_x),
+         stride_y      = as.integer(stride_y))
+}
+
+##' @rdname layers
+##' @export
+ave_pool = layer_average_pooling
