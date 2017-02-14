@@ -43,7 +43,7 @@
 /**
  * comment out if you want tiny-dnn to be quiet
  */
-#define CNN_USE_STDOUT
+// #define CNN_USE_STDOUT
 
 // #define CNN_SINGLE_THREAD
 
@@ -52,7 +52,7 @@
  * You can uncomment this to speedup compilation & linking time,
  * if you don't use network::save / network::load functions.
  **/
-// #define CNN_NO_SERIALIZATION
+#define CNN_NO_SERIALIZATION
 
 /**
  * Enable Image API support.
