@@ -3,3 +3,4 @@ useDynLib(tinydnn)
 
 export(net_seq)
 export(layer_fully_connected, fc)
+export(layer_convolutional, conv)
