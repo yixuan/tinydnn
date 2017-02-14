@@ -25,6 +25,7 @@ activation_id = c(identity   = 0L,
 ##'   \item Fully-connected layer: \code{layer_fully_connected()}, or \code{fc()} for short
 ##'   \item Convolutoinal layer: \code{layer_convolutional()}, \code{conv()}
 ##'   \item Average-pooling layer: \code{layer_average_pooling()}, \code{ave_pool()}
+##'   \item Max-pooling layer: \code{layer_max_pooling()}, \code{max_pool()}
 ##' }
 ##' More types of layers are to be added.
 ##'
@@ -124,3 +125,29 @@ layer_average_pooling = function(
 ##' @rdname layers
 ##' @export
 ave_pool = layer_average_pooling
+
+##' @rdname layers
+##' @export
+layer_max_pooling = function(
+    in_width, in_height, in_channels, pool_size_x,
+    pool_size_y = ifelse(in_height == 1, 1, pool_size_x),
+    stride_x = pool_size_x, stride_y = pool_size_y,
+    pad_type = c("valid", "same"),
+    activation = "sigmoid"
+)
+{
+    list(layer_id      = 3L,
+         act_id        = activation_id[activation],
+         in_width      = as.integer(in_width),
+         in_height     = as.integer(in_height),
+         in_channels   = as.integer(in_channels),
+         pool_size_x   = as.integer(pool_size_x),
+         pool_size_y   = as.integer(pool_size_y),
+         pad_type      = match.arg(pad_type),
+         stride_x      = as.integer(stride_x),
+         stride_y      = as.integer(stride_y))
+}
+
+##' @rdname layers
+##' @export
+max_pool = layer_max_pooling

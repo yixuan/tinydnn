@@ -16,4 +16,8 @@ void add_layer_average_pooling(
     tiny_dnn::network<tiny_dnn::sequential>* net, Rcpp::List layer
 );
 
+void add_layer_max_pooling(
+    tiny_dnn::network<tiny_dnn::sequential>* net, Rcpp::List layer
+);
+
 #endif // TINYDNN_LAYERS_H

@@ -177,3 +177,51 @@ void add_layer_average_pooling(
         Rcpp::stop("unsupported activation function");
     }
 }
+
+// Max-pooling layer
+void add_layer_max_pooling(
+    tiny_dnn::network<tiny_dnn::sequential>* net, Rcpp::List layer
+)
+{
+    const int act_id = layer["act_id"];
+    const serial_size_t in_width = Rcpp::as<serial_size_t>(layer["in_width"]);
+    const serial_size_t in_height = Rcpp::as<serial_size_t>(layer["in_height"]);
+    const serial_size_t in_channels = Rcpp::as<serial_size_t>(layer["in_channels"]);
+    const serial_size_t pool_size_x = Rcpp::as<serial_size_t>(layer["pool_size_x"]);
+    const serial_size_t pool_size_y = Rcpp::as<serial_size_t>(layer["pool_size_y"]);
+    const padding pad_type = (Rcpp::as<std::string>(layer["pad_type"]) == "same") ?
+                              padding::same :
+                              padding::valid;
+    const serial_size_t stride_x = Rcpp::as<serial_size_t>(layer["stride_x"]);
+    const serial_size_t stride_y = Rcpp::as<serial_size_t>(layer["stride_y"]);
+
+    switch(act_id)
+    {
+    case ACT_IDENTITY:
+        (*net) << max_pooling_layer<identity>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_SIGMOID:
+        (*net) << max_pooling_layer<sigmoid>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_RELU:
+        (*net) << max_pooling_layer<relu>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_LEAKY_RELU:
+        (*net) << max_pooling_layer<leaky_relu>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_ELU:
+        (*net) << max_pooling_layer<elu>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_SOFTMAX:
+        (*net) << max_pooling_layer<softmax>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_TAN_H:
+        (*net) << max_pooling_layer<tan_h>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    case ACT_TAN_HP1M2:
+        (*net) << max_pooling_layer<tan_hp1m2>(in_width, in_height, in_channels, pool_size_x, pool_size_y, stride_x, stride_y, pad_type);
+        break;
+    default:
+        Rcpp::stop("unsupported activation function");
+    }
+}
