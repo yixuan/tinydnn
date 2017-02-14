@@ -118,7 +118,7 @@ prob = net$predict(test_x, type = "prob")
 
 In the examples above we only use fully-connected layers to construct the
 network. There are other types of layers supported by **tinydnn**, for example
-convolutional layers. See `?layers` to see the list of currently supported ones.
+convolutional layers. See `?layers` for a list of currently supported ones.
 
 ### TODO
 

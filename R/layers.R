@@ -12,6 +12,7 @@ activation_id = c(identity   = 0L,
 ##' Various layers that can be combined to build a deep neural network.
 ##'
 ##' @rdname layers
+##' @aliases layers
 ##'
 ##' @param in_dim Number of elements in the input
 ##' @param out_dim Number of elements in the output

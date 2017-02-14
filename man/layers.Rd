@@ -8,6 +8,7 @@
 \alias{layer_convolutional}
 \alias{layer_fully_connected}
 \alias{layer_max_pooling}
+\alias{layers}
 \alias{max_pool}
 \title{Layers to Build Deep Neural Networks}
 \usage{
