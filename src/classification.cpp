@@ -50,7 +50,7 @@ SEXP net_seq_classification_fit(
         [&]() {
             if(verbose)
             {
-                Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << " s" << std::endl;
+                Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << "s" << std::endl;
                 t.restart();
                 epoch++;
             }

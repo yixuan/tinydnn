@@ -64,7 +64,7 @@ SEXP net_seq_regression_fit(
         [&]() {
             if(verbose)
             {
-                Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << " s" << std::endl;
+                Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << "s" << std::endl;
                 t.restart();
                 epoch++;
             }
