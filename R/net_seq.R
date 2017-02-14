@@ -161,8 +161,8 @@ NetworkSequential$methods(
             stop(sprintf("mismatch of dimensionality between network and data\nnetwork input: %d variable(s)\ndata input: %d variable(s)",
                          .self$in_data_size(), dimx))
 
-        type = match.arg(type)
-        if(.self$type == "classification" && type == "class")
+        out_type = match.arg(type)
+        if(.self$type == "classification" && out_type == "class")
         {
             res = net_seq_classification_predict(.self$net, newx)
             res = factor(.self$levels[res + 1], levels = .self$levels)
