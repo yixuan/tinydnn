@@ -23,6 +23,7 @@ activation_id = c(identity   = 0L,
 ##' Currently the following layers are supported:
 ##' \itemize{
 ##'   \item Fully-connected layer: \code{layer_fully_connected()}, or \code{fc()} for short
+##'   \item Convolutoinal layer: \code{layer_convolutional()}, \code{conv()}
 ##' }
 ##' More types of layers are to be added.
 ##'
@@ -59,3 +60,36 @@ layer_fully_connected = function(
 ##' @rdname layers
 ##' @export
 fc = layer_fully_connected
+
+##' @rdname layers
+##' @param in_width Input image width
+##' @param in_height Input image height
+##' @param window_width Window width of convolution
+##' @param window_height Window height of convolution
+##' @param in_channels Input image channels
+##' @param out_channels Output image channels
+##' @param pad_type Rounding strategy
+##' @param w_stride The horizontal interval at which to apply the filters
+##' @param h_stride The vertical interval at which to apply the filters
+layer_convolutional = function(
+    in_width, in_height, window_width, window_height, in_channels, out_channels,
+    activation = "sigmoid",
+    pad_type = c("valid", "same"), has_bias = TRUE, w_stride = 1L, h_stride = 1L
+)
+{
+    list(layer_id      = 1L,
+         act_id        = activation_id[activation],
+         in_width      = as.integer(in_width),
+         in_height     = as.integer(in_height),
+         window_width  = as.integer(window_width),
+         window_height = as.integer(window_height),
+         in_channels   = as.integer(in_channels),
+         out_channels  = as.integer(out_channels),
+         has_bias      = as.logical(has_bias),
+         w_stride      = as.integer(w_stride),
+         h_stride      = as.integer(h_stride))
+}
+
+##' @rdname layers
+##' @export
+conv = layer_convolutional
