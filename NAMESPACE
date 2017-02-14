@@ -5,3 +5,5 @@ export(net_seq)
 export(layer_fully_connected, fc)
 export(layer_convolutional, conv)
 export(layer_average_pooling, ave_pool)
+
+exportMethods("%<%")

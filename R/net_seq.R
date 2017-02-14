@@ -182,3 +182,13 @@ net_seq = function(name = "")
 {
     NetworkSequential$new(net = net_seq_constructor(name))
 }
+
+if(!isGeneric("%<%"))
+    setGeneric("%<%", function(e1, e2) standardGeneric("%<%"))
+
+setMethod("%<%", signature(e1 = "NetworkSequential", e2 = "list"),
+          function(e1, e2) {
+              e1$add_layer(e2)
+              invisible(e1)
+          }
+)
