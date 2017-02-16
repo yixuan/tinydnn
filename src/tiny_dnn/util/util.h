@@ -12,7 +12,8 @@
 #include <cstdio>
 #include <functional>
 #include <limits>
-#include <random>
+// Use R's RNG
+// #include <random>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -32,7 +33,9 @@
 #include "tiny_dnn/util/macro.h"
 #include "tiny_dnn/util/nn_error.h"
 #include "tiny_dnn/util/parallel_for.h"
-#include "tiny_dnn/util/random.h"
+// Use R's RNG
+// #include "tiny_dnn/util/random.h"
+#include <random_r.h>
 
 #if defined(USE_OPENCL) || defined(USE_CUDA)
 #ifdef USE_OPENCL
