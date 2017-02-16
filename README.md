@@ -1,6 +1,6 @@
-## tinydnn
+# tinydnn
 
-### Introduction
+## Introduction
 
 **tinydnn** is an (experimental) R wrapper of the
 [tiny-dnn](https://github.com/tiny-dnn/tiny-dnn) library for implementing
@@ -20,18 +20,18 @@ installation and configuration
 - You want to learn the internals of DNN (The included `tiny-dnn` library
 provides an excellent coding example of DNN)
 
-### Development Status
+## Development Status
 
 **tinydnn** is still in the experiment stage. Functions and interface may change,
 and more features will be added per request. Feedbacks and contributions are
 highly welcome.
 
-### Example
+## Examples
 
 This package has not been fully documented. The examples below are mostly
 self-explanatory.
 
-#### Regression
+### Regression
 
 We use the [wine quality data](https://archive.ics.uci.edu/ml/datasets/Wine+Quality)
 on UCI machine learning repository to demonstrate a regression example, in which
@@ -85,7 +85,7 @@ mean((train_y - pred_train)^2)
 mean((test_y - pred_test)^2)
 ```
 
-#### Classification
+### Classification
 
 Since the quality of wine is coded as an integer from 1 to 10 (actually 3 to 8
 in this data set), we can also regard this as a classification problem. The
@@ -120,8 +120,9 @@ In the examples above we only use fully-connected layers to construct the
 network. There are other types of layers supported by **tinydnn**, for example
 convolutional layers. See `?layers` for a list of currently supported ones.
 
-### TODO
+## TODO
 
-- Random seed. If possible use the RNG provided by R itself.
+- <del>Random seed. If possible use the RNG provided by R itself.</del> (Completed)
 - Add more layers implemented by the `tiny-dnn` library.
 - Add convenient functions to manipulate networks and layers.
+- <del>Support different optimization methods.</del> (Completed)
