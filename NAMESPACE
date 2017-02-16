@@ -8,3 +8,5 @@ export(layer_average_pooling, ave_pool)
 export(layer_max_pooling, max_pool)
 
 exportMethods("%<%")
+
+export(adagrad, rmsprop, adam, sgd, momentum)

@@ -65,7 +65,7 @@ NetworkSequential$methods(
     },
 
     fit = function(x, y, batch_size, epochs = 10,
-                   optimizer = "adagrad", optparams = list(lrate = 0.01), verbose = TRUE)
+                   optimizer = adagrad(), verbose = TRUE)
     {
         "Fitting a regression or classification model"
 
@@ -81,7 +81,7 @@ NetworkSequential$methods(
 
         batch_size = as.integer(batch_size)
         epochs = as.integer(epochs)
-        opt = c(opt_name = as.character(optimizer), optparams)
+        optimizer = as.list(optimizer)
         verbose = as.logical(verbose)
 
         ## Force x to be a matrix
@@ -112,7 +112,7 @@ NetworkSequential$methods(
                      .self$out_data_size(), dimy))
 
             ## Call model fitting function
-            net_seq_regression_fit(.self$net, x, y, batch_size, epochs, opt, verbose)
+            net_seq_regression_fit(.self$net, x, y, batch_size, epochs, optimizer, verbose)
         } else {
             ## Factor y -- Classification
 
@@ -139,7 +139,7 @@ NetworkSequential$methods(
                              .self$out_data_size(), dimy))
 
             ## Call model fitting function
-            net_seq_classification_fit(.self$net, x, ylabel, batch_size, epochs, opt, verbose)
+            net_seq_classification_fit(.self$net, x, ylabel, batch_size, epochs, optimizer, verbose)
         }
 
         invisible(.self)
