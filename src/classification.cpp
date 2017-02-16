@@ -24,17 +24,21 @@ SEXP net_seq_classification_fit(
 
     input.reserve(n);
 
-    // Copy data
-    std::copy(y.begin(), y.end(), output.begin());
+    // It looks like that currently tiny-dnn does not shuffle data
+    // during training, so we provide a shuffled data set to tiny-dnn
+    Rcpp::IntegerVector ind = Rcpp::sample(n, n, false, R_NilValue, false);
 
+    // Copy data
     vec_t rowx(p);
     for(int i = 0; i < n; i++)
     {
         for(int j = 0; j < p; j++)
         {
-            rowx[j] = x(i, j);
+            rowx[j] = x(ind[i], j);
         }
         input.push_back(rowx);
+
+        output[i] = y[ind[i]];
     }
 
     std::shared_ptr<tiny_dnn::optimizer> opt_ptr = get_optimizer(opt);

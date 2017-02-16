@@ -26,6 +26,10 @@ SEXP net_seq_regression_fit(
     input.reserve(n);
     output.reserve(n);
 
+    // It looks like that currently tiny-dnn does not shuffle data
+    // during training, so we provide a shuffled data set to tiny-dnn
+    Rcpp::IntegerVector ind = Rcpp::sample(n, n, false, R_NilValue, false);
+
     // Copy data
     vec_t rowx(px);
     vec_t rowy(py);
@@ -34,18 +38,18 @@ SEXP net_seq_regression_fit(
         // Fill input
         for(int j = 0; j < px; j++)
         {
-            rowx[j] = x(i, j);
+            rowx[j] = x(ind[i], j);
         }
         input.push_back(rowx);
 
         // Fill output
         if(py == 1)
         {
-            rowy[0] = y[i];
+            rowy[0] = y[ind[i]];
         } else {
             for(int j = 0; j < py; j++)
             {
-                rowy[j] = y(i, j);
+                rowy[j] = y(ind[i], j);
             }
         }
         output.push_back(rowy);
