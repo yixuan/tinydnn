@@ -7,8 +7,8 @@
 using namespace Rcpp;
 
 // net_seq_classification_fit
-SEXP net_seq_classification_fit(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net, Rcpp::NumericMatrix x, Rcpp::IntegerVector y, int batch_size, int epochs, std::string optimizer, bool verbose);
-RcppExport SEXP tinydnn_net_seq_classification_fit(SEXP netSEXP, SEXP xSEXP, SEXP ySEXP, SEXP batch_sizeSEXP, SEXP epochsSEXP, SEXP optimizerSEXP, SEXP verboseSEXP) {
+SEXP net_seq_classification_fit(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net, Rcpp::NumericMatrix x, Rcpp::IntegerVector y, int batch_size, int epochs, Rcpp::List opt, bool verbose);
+RcppExport SEXP tinydnn_net_seq_classification_fit(SEXP netSEXP, SEXP xSEXP, SEXP ySEXP, SEXP batch_sizeSEXP, SEXP epochsSEXP, SEXP optSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -17,9 +17,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type batch_size(batch_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type epochs(epochsSEXP);
-    Rcpp::traits::input_parameter< std::string >::type optimizer(optimizerSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type opt(optSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(net_seq_classification_fit(net, x, y, batch_size, epochs, optimizer, verbose));
+    rcpp_result_gen = Rcpp::wrap(net_seq_classification_fit(net, x, y, batch_size, epochs, opt, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -103,8 +103,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // net_seq_regression_fit
-SEXP net_seq_regression_fit(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net, Rcpp::NumericMatrix x, Rcpp::NumericMatrix y, int batch_size, int epochs, std::string optimizer, bool verbose);
-RcppExport SEXP tinydnn_net_seq_regression_fit(SEXP netSEXP, SEXP xSEXP, SEXP ySEXP, SEXP batch_sizeSEXP, SEXP epochsSEXP, SEXP optimizerSEXP, SEXP verboseSEXP) {
+SEXP net_seq_regression_fit(Rcpp::XPtr< tiny_dnn::network<tiny_dnn::sequential> > net, Rcpp::NumericMatrix x, Rcpp::NumericMatrix y, int batch_size, int epochs, Rcpp::List opt, bool verbose);
+RcppExport SEXP tinydnn_net_seq_regression_fit(SEXP netSEXP, SEXP xSEXP, SEXP ySEXP, SEXP batch_sizeSEXP, SEXP epochsSEXP, SEXP optSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -113,9 +113,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type batch_size(batch_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type epochs(epochsSEXP);
-    Rcpp::traits::input_parameter< std::string >::type optimizer(optimizerSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type opt(optSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(net_seq_regression_fit(net, x, y, batch_size, epochs, optimizer, verbose));
+    rcpp_result_gen = Rcpp::wrap(net_seq_regression_fit(net, x, y, batch_size, epochs, opt, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
