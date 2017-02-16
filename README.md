@@ -125,4 +125,3 @@ convolutional layers. See `?layers` for a list of currently supported ones.
 - Random seed. If possible use the RNG provided by R itself.
 - Add more layers implemented by the `tiny-dnn` library.
 - Add convenient functions to manipulate networks and layers.
-- Support different optimization methods.
