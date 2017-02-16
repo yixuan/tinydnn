@@ -43,11 +43,11 @@ SEXP net_seq_classification_fit(
 
     net->train<cross_entropy>(opt, input, output, batch_size, epochs,
         // called for each mini-batch
-        [&]() {
+        []() {
 
         },
         // called for each epoch
-        [&]() {
+        [&verbose, &t, &epoch]() {
             if(verbose)
             {
                 Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << "s" << std::endl;
