@@ -1,6 +1,7 @@
 #include <tiny_dnn/tiny_dnn.h>
 #include <Rcpp.h>
 #include "layers.h"
+#include "optimizers.h"
 
 // [[Rcpp::export]]
 SEXP net_seq_classification_fit(
@@ -9,7 +10,7 @@ SEXP net_seq_classification_fit(
     Rcpp::IntegerVector y,
     int batch_size,
     int epochs,
-    std::string optimizer,
+    Rcpp::List opt,
     bool verbose
 )
 {
@@ -36,25 +37,26 @@ SEXP net_seq_classification_fit(
         input.push_back(rowx);
     }
 
-    adagrad opt;
+    std::shared_ptr<tiny_dnn::optimizer> opt_ptr = get_optimizer(opt);
 
     timer t;
     int epoch = 0;
 
-    net->train<cross_entropy>(opt, input, output, batch_size, epochs,
+    net->train<cross_entropy>(*opt_ptr, input, output, batch_size, epochs,
         // called for each mini-batch
         []() {
 
         },
         // called for each epoch
-        [&verbose, &t, &epoch]() {
+        [verbose, &t, &epoch]() {
             if(verbose)
             {
                 Rcpp::Rcout << "[Epoch " << epoch << "]: " << t.elapsed() << "s" << std::endl;
                 t.restart();
                 epoch++;
             }
-        });
+        }
+    );
 
     return R_NilValue;
 }
