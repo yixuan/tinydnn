@@ -28,6 +28,13 @@ NetworkSequential$methods(
         net_seq_layer_size(.self$net)
     },
 
+    get_weights = function()
+    {
+        "Return weights of each layer"
+
+        net_seq_get_weights(.self$net)
+    },
+
     out_data_size = function()
     {
         "Total number of elements of output data"
