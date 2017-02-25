@@ -15,7 +15,6 @@ vignette: >
 
 ```{r include=FALSE}
 library(knitr)
-library(tinydnn)
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
@@ -43,6 +42,7 @@ rm(test)
 Creating network structure is very straightforward; somewhat tricky part is setting right shapes for next layer after convolution or pool one.
 
 ```{r}
+library(tinydnn)
 net <- net_seq()
 net %<%
     fc(ncol(train_x), 
@@ -87,10 +87,11 @@ net %<%
 Train network with `batch_size = 25` and `epochs = 4`.
 
 ```{r}
+set.seed(123)
 net$fit(train_x, 
         train_y, 
-        batch_size = 25, 
-        epochs = 4, 
+        batch_size = 100, 
+        epochs = 10, 
         verbose = TRUE)
 ```
 
@@ -100,16 +101,16 @@ net$fit(train_x,
 pred_train <- net$predict(train_x[1:3000, ], type = "class")
 table(pred_train, train_y[1:3000])
 # pred_train   0   1   2   3   4   5   6   7   8   9
-#          0 294   0   0   0   0   0   0   0   1   2
-#          1   0 334   0   0   0   1   0   1   1   0
-#          2   1   3 321   2   1   2   0   1   0   0
-#          3   0   1   0 259   0   1   0   1   1   0
-#          4   1   0   1   0 290   0   1   0   0   5
-#          5   0   0   1   3   0 283   0   0   3   2
-#          6   2   1   0   0   0   0 305   0   0   1
-#          7   0   1   3   1   0   0   0 295   0   3
-#          8   0   2   1   3   0   0   1   1 272   0
-#          9   1   0   0   2   4   1   0   3   2 277
+#          0 296   0   1   0   0   0   0   1   0   1
+#          1   0 339   0   0   0   0   0   0   1   0
+#          2   1   1 324   1   1   1   0   1   1   0
+#          3   0   0   0 267   0   1   0   1   1   0
+#          4   0   0   1   0 290   0   0   0   0   0
+#          5   0   0   0   2   0 284   0   0   0   2
+#          6   1   1   0   0   1   1 307   0   1   1
+#          7   1   0   1   0   0   0   0 298   0   4
+#          8   0   1   0   0   0   0   0   1 274   0
+#          9   0   0   0   0   3   1   0   0   2 282
 
 pred_test <- net$predict(test_x, type = "class")
 submission <- data.frame(ImageId = 1:nrow(test_x), 
