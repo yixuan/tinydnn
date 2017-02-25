@@ -1,23 +1,30 @@
 ---
-title: "Convolution network example with tinydnn"
-author: "https://github.com/statist-bhfz"
+title: "Convolutional Neural Network Example with tinydnn"
+author: "Andrey Ogurtsov"
 date: "February 25, 2017"
-output: rmarkdown::html_vignette
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Convolutional Neural Network Example with tinydnn}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r}
+```{r include=FALSE}
 library(knitr)
 library(tinydnn)
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-This example shows how to train convolution network with **tinydnn** package. We will use [MNIST](yann.lecun.com/exdb/mnist/) dataset and LeNet architecture ([mxnet realization](http://mxnet.io/tutorials/r/mnistCompetition.html)).
+This example shows how to train Convolutional Neural Networks (CNN) with
+the **tinydnn** package. We will use the [MNIST](http://yann.lecun.com/exdb/mnist/)
+dataset and the LeNet architecture
+([mxnet realization](http://mxnet.io/tutorials/r/mnistCompetition.html)).
 
-## 1. Data
+# Data
 
 ```{r}
 # Download data from https://www.kaggle.com/c/digit-recognizer/data
@@ -31,7 +38,7 @@ test_x <- as.matrix(test)
 rm(test)
 ```
 
-## 2. Network structure
+# Network Structure
 
 Creating network structure is very straightforward; somewhat tricky part is setting right shapes for next layer after convolution or pool one.
 
@@ -75,7 +82,7 @@ net %<%
     fc(500, nlevels(train_y), act = "softmax")
 ```
 
-## 3. Network training
+# Network Training
 
 Train network with `batch_size = 25` and `epochs = 4`.
 
@@ -87,7 +94,7 @@ net$fit(train_x,
         verbose = TRUE)
 ```
 
-## 4. Making predictions
+# Making Predictions
 
 ```{r}
 pred_train <- net$predict(train_x[1:3000, ], type = "class")
