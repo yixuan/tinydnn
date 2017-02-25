@@ -3,7 +3,8 @@ Type: Package
 Title: Tiny yet Powerful Deep Neural Networks
 Version: 0.1.0
 Date: 2017-02-12
-Author: Yixuan Qiu, Taiga Noumi, and other contributors of the tiny-dnn library.
+Author: Yixuan Qiu, Taiga Noumi (The 'tiny-dnn' library), Andrey Ogurtsov
+    (Package vignette), and other contributors of the tiny-dnn library.
     See file AUTHORS for details.
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
 Description: R wrapper of the 'tiny-dnn' C++ library for deep learning.
@@ -15,6 +16,8 @@ Depends:
     methods
 Imports:
     Rcpp (>= 0.12.9)
+Suggests:
+    prettydoc
 LinkingTo: Rcpp
 SystemRequirements: C++11
 RoxygenNote: 5.0.1
