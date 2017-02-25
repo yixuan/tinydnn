@@ -84,7 +84,7 @@ net %<%
 
 # Network Training
 
-Train network with `batch_size = 25` and `epochs = 4`.
+Train network with `batch_size = 100` and `epochs = 10`.
 
 ```{r}
 set.seed(123)
