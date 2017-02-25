@@ -17,7 +17,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 This example shows how to train convolution network with **tinydnn** package. We will use [MNIST](yann.lecun.com/exdb/mnist/) dataset and LeNet architecture ([mxnet realization](http://mxnet.io/tutorials/r/mnistCompetition.html)).
 
-## Data
+## 1. Data
 
 ```{r}
 # Download data from https://www.kaggle.com/c/digit-recognizer/data
