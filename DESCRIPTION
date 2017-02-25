@@ -18,3 +18,4 @@ Imports:
 LinkingTo: Rcpp
 SystemRequirements: C++11
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

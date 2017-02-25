@@ -1,0 +1,115 @@
+---
+title: "Convolution network example with tinydnn"
+author: "https://github.com/statist-bhfz"
+date: "February 25, 2017"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r}
+library(knitr)
+library(tinydnn)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+This example shows how to train convolution network with **tinydnn** package. We will use [MNIST](yann.lecun.com/exdb/mnist/) dataset and LeNet architecture ([mxnet realization](http://mxnet.io/tutorials/r/mnistCompetition.html)).
+
+## Data
+
+```{r}
+# Download data from https://www.kaggle.com/c/digit-recognizer/data
+train <- read.csv("train.csv")
+train_x <- as.matrix(train[, -1])
+train_y <- factor(train[, 1])
+rm(train)
+
+test <- read.csv("test.csv")
+test_x <- as.matrix(test)
+rm(test)
+```
+
+## 2. Network structure
+
+Creating network structure is very straightforward; somewhat tricky part is setting right shapes for next layer after convolution or pool one.
+
+```{r}
+net <- net_seq()
+net %<%
+    fc(ncol(train_x), 
+       ncol(train_x), 
+       act = "identity") %<%
+    conv(in_width        = 28,  
+         in_height       = 28, 
+         window_width    = 5, 
+         window_height   = 5, 
+         in_channels     = 1,  # set to 1 for grayscale images
+         out_channels    = 20, # number of filters
+         act = "tan_h") %<%
+    max_pool(in_width    = 24, # smaller images after convolution
+             in_height   = 24,
+             in_channels = 20, # number of filters in conv
+             pool_size_x = 2,
+             pool_size_y = 2,
+             stride_x    = 2, 
+             stride_y    = 2,
+             activation  = "identity") %<%
+    conv(in_width        = 12, 
+         in_height       = 12, 
+         window_width    = 5, 
+         window_height   = 5, 
+         in_channels     = 20,
+         out_channels    = 50,
+         act = "tan_h") %<%
+    max_pool(in_width    = 8, 
+             in_height   = 8,
+             in_channels = 50,
+             pool_size_x = 2,
+             pool_size_y = 2,
+             stride_x    = 2, 
+             stride_y    = 2,
+             activation   = "identity") %<%
+    fc(800, 500, act = "tan_h") %<%
+    fc(500, nlevels(train_y), act = "softmax")
+```
+
+## 3. Network training
+
+Train network with `batch_size = 25` and `epochs = 4`.
+
+```{r}
+net$fit(train_x, 
+        train_y, 
+        batch_size = 25, 
+        epochs = 4, 
+        verbose = TRUE)
+```
+
+## 4. Making predictions
+
+```{r}
+pred_train <- net$predict(train_x[1:3000, ], type = "class")
+table(pred_train, train_y[1:3000])
+# pred_train   0   1   2   3   4   5   6   7   8   9
+#          0 294   0   0   0   0   0   0   0   1   2
+#          1   0 334   0   0   0   1   0   1   1   0
+#          2   1   3 321   2   1   2   0   1   0   0
+#          3   0   1   0 259   0   1   0   1   1   0
+#          4   1   0   1   0 290   0   1   0   0   5
+#          5   0   0   1   3   0 283   0   0   3   2
+#          6   2   1   0   0   0   0 305   0   0   1
+#          7   0   1   3   1   0   0   0 295   0   3
+#          8   0   2   1   3   0   0   1   1 272   0
+#          9   1   0   0   2   4   1   0   3   2 277
+
+pred_test <- net$predict(test_x, type = "class")
+submission <- data.frame(ImageId = 1:nrow(test_x), 
+                         Label = pred_test)
+write.csv(submission, 
+          file = "submission.csv", 
+          row.names = FALSE,  
+          quote = FALSE)
+```
+
